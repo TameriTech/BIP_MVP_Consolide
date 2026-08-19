@@ -119,7 +119,7 @@ async function submit() {
     <div class="kyc-card animate-fade-up">
       <!-- Header -->
       <div class="kyc-logo">
-        <div class="logo-icon">₿</div>
+        <div class="brand-mark logo-icon">B</div>
         <div>
           <div class="logo-name">BIP</div>
           <div class="logo-sub">Identity Verification</div>
@@ -288,14 +288,10 @@ async function submit() {
 .kyc-logo { display: flex; align-items: center; gap: 0.75rem; }
 .logo-icon {
   width: 40px; height: 40px;
-  background: linear-gradient(135deg, #f0b429, #d97706);
-  border-radius: 10px; display: flex; align-items: center; justify-content: center;
-  font-size: 1.25rem; color: #1a1000; font-weight: 900;
-  box-shadow: 0 4px 12px rgba(240,180,41,0.3);
-  flex-shrink: 0;
+  font-size: 1.2rem;
 }
-.logo-name { font-size: 1.15rem; font-weight: 900; color: var(--text-primary); line-height: 1; }
-.logo-sub  { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+.logo-name { font-size: var(--text-md); font-weight: 800; letter-spacing: var(--tracking-tight); color: var(--text-primary); line-height: 1.1; }
+.logo-sub  { font-size: var(--text-xs); color: var(--text-muted); margin-top: 3px; }
 .kyc-divider { height: 1px; background: var(--surface-border); margin: 1.5rem 0; }
 
 /* Steps */
@@ -307,7 +303,7 @@ async function submit() {
   width: 32px; height: 32px;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.8rem; font-weight: 800;
+  font-size: var(--text-sm); font-weight: 800;
   background: var(--surface-3);
   border: 2px solid var(--surface-border-strong);
   color: var(--text-muted);
@@ -323,7 +319,7 @@ async function submit() {
   border-color: var(--bip-green);
   color: var(--bip-green);
 }
-.step-label { font-size: 0.68rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+.step-label { font-size: var(--text-2xs); font-weight: 600; color: var(--text-muted); white-space: nowrap; }
 .step.active .step-label { color: var(--bip-gold); }
 .step.done  .step-label  { color: var(--bip-green); }
 .step-line { flex: 1; height: 2px; background: var(--surface-border); margin: 0 0.5rem; margin-bottom: 1rem; }
@@ -339,23 +335,23 @@ async function submit() {
 .kyc-form { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.25rem; }
 .form-section { display: flex; flex-direction: column; gap: 1rem; }
 .section-title {
-  font-size: 0.72rem; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: var(--text-xs); font-weight: 700;
+  letter-spacing: var(--tracking-label); text-transform: uppercase;
   color: var(--text-secondary); border-bottom: 1px solid var(--surface-border);
   padding-bottom: 0.5rem;
 }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem; }
 @media (max-width: 520px) { .form-grid { grid-template-columns: 1fr; } }
 .field { display: flex; flex-direction: column; gap: 0.4rem; }
-.field label { font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.02em; }
+.field label { font-size: var(--text-sm); font-weight: 600; color: var(--text-secondary); }
 .form-disclaimer {
   display: flex; align-items: flex-start; gap: 0.5rem;
-  font-size: 0.75rem; color: var(--text-muted);
+  font-size: var(--text-xs); color: var(--text-muted);
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--surface-border);
   border-radius: var(--radius-md);
-  padding: 0.75rem;
-  line-height: 1.5;
+  padding: 0.75rem 0.875rem;
+  line-height: 1.55;
 }
 .form-disclaimer .pi { color: var(--bip-blue); flex-shrink: 0; margin-top: 1px; }
 .form-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }

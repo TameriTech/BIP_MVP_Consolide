@@ -148,6 +148,8 @@ async function refreshMarket() {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 .actions {
   display: flex;

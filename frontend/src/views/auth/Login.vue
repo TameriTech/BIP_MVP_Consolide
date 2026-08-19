@@ -40,7 +40,7 @@ async function submit() {
     <div class="auth-card animate-fade-up">
       <!-- Logo -->
       <div class="auth-logo">
-        <div class="logo-icon">₿</div>
+        <div class="brand-mark logo-icon">B</div>
         <div class="logo-text">
           <span class="logo-name">BIP</span>
           <span class="logo-sub">Bourse d'Investissement Participatif</span>
@@ -182,30 +182,21 @@ async function submit() {
 .logo-icon {
   width: 44px;
   height: 44px;
-  background: linear-gradient(135deg, #f0b429, #d97706);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: #1a1000;
-  font-weight: 900;
-  box-shadow: 0 4px 16px rgba(240,180,41,0.35);
-  flex-shrink: 0;
+  font-size: 1.35rem;
 }
 .logo-text { display: flex; flex-direction: column; }
 .logo-name {
-  font-size: 1.3rem;
-  font-weight: 900;
-  letter-spacing: -0.02em;
+  font-size: var(--text-lg);
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight);
   color: var(--text-primary);
-  line-height: 1;
+  line-height: 1.1;
 }
 .logo-sub {
-  font-size: 0.62rem;
+  font-size: var(--text-2xs);
   color: var(--text-muted);
-  margin-top: 2px;
-  letter-spacing: 0.01em;
+  margin-top: 3px;
+  letter-spacing: var(--tracking-normal);
 }
 
 .auth-divider {
@@ -217,13 +208,14 @@ async function submit() {
 /* Header */
 .auth-header { margin-bottom: 1.5rem; }
 .auth-header h1 {
-  font-size: 1.4rem;
+  font-size: var(--text-xl);
   font-weight: 800;
+  letter-spacing: var(--tracking-tight);
   color: var(--text-primary);
   margin-bottom: 0.3rem;
 }
 .auth-header p {
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 
@@ -239,10 +231,9 @@ async function submit() {
   gap: 0.4rem;
 }
 .field label {
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--text-secondary);
-  letter-spacing: 0.02em;
 }
 .submit-btn {
   margin-top: 0.25rem;
@@ -252,7 +243,7 @@ async function submit() {
 .auth-switch {
   margin-top: 1.25rem;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 
@@ -262,15 +253,15 @@ async function submit() {
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--surface-border);
   border-radius: var(--radius-md);
-  padding: 0.875rem;
+  padding: 0.875rem 1rem;
 }
 .demo-title {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.72rem;
+  font-size: var(--text-2xs);
   font-weight: 700;
-  letter-spacing: 0.07em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 0.75rem;
@@ -278,31 +269,31 @@ async function submit() {
 .demo-creds {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.4rem;
 }
 .cred-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
 }
 .cred-role {
-  width: 80px;
+  width: 84px;
   color: var(--text-muted);
   font-weight: 600;
   flex-shrink: 0;
 }
 code {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   color: var(--bip-gold);
   background: rgba(240,180,41,0.07);
-  padding: 0.1rem 0.4rem;
+  padding: 0.15rem 0.45rem;
   border-radius: 4px;
 }
 .cred-hint {
-  margin-top: 0.25rem;
-  font-size: 0.78rem;
+  margin-top: 0.35rem;
+  font-size: var(--text-xs);
   color: var(--text-muted);
 }
 </style>

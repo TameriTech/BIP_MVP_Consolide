@@ -102,12 +102,12 @@ const chartOptions = {
   scales: {
     x: {
       grid: { color: "rgba(255,255,255,0.04)", drawBorder: false },
-      ticks: { color: "#475569", font: { size: 10 }, maxTicksLimit: 6 },
+      ticks: { color: "#6b7a94", font: { size: 10 }, maxTicksLimit: 6 },
     },
     y: {
       grid: { color: "rgba(255,255,255,0.04)", drawBorder: false },
       ticks: {
-        color: "#475569",
+        color: "#6b7a94",
         font: { size: 10, family: "JetBrains Mono" },
         callback: (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 0 }),
       },
@@ -158,7 +158,16 @@ const priceChange = computed(() => {
   const first = Number(quotes.value[0].price);
   const last  = Number(quotes.value[quotes.value.length - 1].price);
   const pct   = ((last - first) / first) * 100;
-  return { pct, up: pct >= 0 };
+  return { pct, up: pct >= 0, diff: last - first };
+});
+
+const stats24h = computed(() => {
+  if (!quotes.value.length) return null;
+  const prices = quotes.value.map((q) => Number(q.price));
+  return {
+    high: Math.max(...prices),
+    low: Math.min(...prices),
+  };
 });
 </script>
 
@@ -200,11 +209,21 @@ const priceChange = computed(() => {
           </p>
         </div>
       </div>
+      <div v-if="stats24h" class="inst-stats">
+        <div class="stat-item">
+          <div class="stat-label">24h High</div>
+          <div class="stat-val num">{{ fmtPrice(String(stats24h.high)) }}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">24h Low</div>
+          <div class="stat-val num">{{ fmtPrice(String(stats24h.low)) }}</div>
+        </div>
+      </div>
       <div class="inst-price-block">
         <div class="inst-price num">{{ fmtPrice(instrument.last_price) }}</div>
         <div v-if="priceChange" class="price-change" :class="priceChange.up ? 'change-pos' : 'change-neg'">
-          <i :class="priceChange.up ? 'pi pi-arrow-up-right' : 'pi pi-arrow-down-right'"></i>
-          {{ priceChange.pct.toFixed(2) }}%
+          <span class="change-diff">{{ priceChange.up ? '+' : '' }}{{ priceChange.diff.toLocaleString("en-US", { minimumFractionDigits: 2 }) }}</span>
+          <span class="change-pct">({{ priceChange.pct.toFixed(2) }}%)</span>
         </div>
         <div class="currency-label">XOF</div>
       </div>
@@ -256,16 +275,10 @@ const priceChange = computed(() => {
           </button>
         </div>
 
-        <!-- Order type -->
-        <div class="ticket-section">
-          <div class="section-label">Order type</div>
-          <SelectButton
-            v-model="orderType"
-            :options="[{ label: 'Market', value: 'market' }, { label: 'Limit', value: 'limit' }]"
-            option-label="label"
-            option-value="value"
-            style="width: 100%"
-          />
+        <!-- Order type tabs -->
+        <div class="ticket-tabs">
+          <button class="ticket-tab" :class="{ 'tab-active': orderType === 'market' }" @click="orderType = 'market'">Market</button>
+          <button class="ticket-tab" :class="{ 'tab-active': orderType === 'limit' }" @click="orderType = 'limit'">Limit</button>
         </div>
 
         <!-- Quantity -->
@@ -364,7 +377,7 @@ const priceChange = computed(() => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
   color: var(--text-muted);
 }
 .breadcrumb button {
@@ -372,8 +385,7 @@ const priceChange = computed(() => {
   border: none;
   color: var(--bip-gold);
   cursor: pointer;
-  font-size: 0.8rem;
-  font-family: 'Inter', sans-serif;
+  font-size: var(--text-sm);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -407,8 +419,8 @@ const priceChange = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
-  font-weight: 900;
+  font-size: var(--text-sm);
+  font-weight: 800;
   color: var(--bip-gold);
   flex-shrink: 0;
 }
@@ -424,9 +436,9 @@ const priceChange = computed(() => {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  font-size: 0.68rem;
+  font-size: var(--text-2xs);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   padding: 0.2rem 0.65rem;
   border-radius: 99px;
@@ -434,29 +446,47 @@ const priceChange = computed(() => {
 .badge-success { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
 .badge-danger  { background: rgba(239,68,68,0.12);  color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
 .status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
-.inst-name { font-size: 0.875rem; color: var(--text-secondary); margin: 0 0 0.25rem; }
-.inst-meta { font-size: 0.78rem; color: var(--text-muted); display: flex; gap: 0.5rem; }
+.inst-name { font-size: var(--text-base); color: var(--text-secondary); margin: 0 0 0.25rem; }
+.inst-meta { font-size: var(--text-xs); color: var(--text-muted); display: flex; gap: 0.5rem; }
 .meta-sep { opacity: 0.4; }
 
 .inst-price-block { text-align: right; }
 .inst-price {
-  font-size: 2.5rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight);
   color: var(--text-primary);
   line-height: 1;
+  font-family: 'JetBrains Mono', monospace;
 }
 .price-change {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   font-weight: 700;
-  margin-top: 0.3rem;
+  margin-top: 0.35rem;
 }
 .change-pos { color: var(--bip-green); }
 .change-neg { color: var(--bip-red); }
-.currency-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem; }
+.change-diff { font-weight: 700; margin-right: 0.2rem; }
+.change-pct { opacity: 0.8; }
+.currency-label { font-size: var(--text-xs); color: var(--text-muted); margin-top: 0.25rem; }
+
+.inst-stats {
+  display: flex;
+  gap: 2rem;
+  margin-left: auto;
+  margin-right: 2rem;
+  padding-right: 2rem;
+  border-right: 1px solid var(--surface-border);
+}
+@media (max-width: 768px) {
+  .inst-stats { display: none; }
+}
+.stat-item { display: flex; flex-direction: column; gap: 0.1rem; }
+.stat-label { font-size: var(--text-xs); color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.stat-val { font-size: var(--text-sm); font-weight: 700; color: var(--text-primary); }
 
 /* Main layout */
 .main-cols {
@@ -482,13 +512,13 @@ const priceChange = computed(() => {
   margin-bottom: 1rem;
 }
 .chart-header h2 {
-  font-size: 0.82rem;
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-secondary);
 }
-.chart-hint { font-size: 0.7rem; color: var(--text-muted); }
+.chart-hint { font-size: var(--text-xs); color: var(--text-muted); }
 .chart-wrap { height: 280px; }
 .chart-empty {
   display: flex;
@@ -518,15 +548,15 @@ const priceChange = computed(() => {
   justify-content: space-between;
 }
 .ticket-header h2 {
-  font-size: 0.82rem;
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-secondary);
   margin: 0;
 }
 .halt-badge {
-  font-size: 0.7rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: #f87171;
   display: flex;
@@ -554,8 +584,7 @@ const priceChange = computed(() => {
   border: none;
   background: transparent;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
+  font-size: var(--text-base);
   font-weight: 700;
   color: var(--text-secondary);
   transition: all var(--transition-fast);
@@ -575,11 +604,35 @@ const priceChange = computed(() => {
   color: var(--text-primary);
 }
 
+.ticket-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--surface-border-strong);
+  margin-bottom: 0.5rem;
+}
+.ticket-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.6rem 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition-fast);
+}
+.ticket-tab:hover { color: var(--text-primary); }
+.ticket-tab.tab-active {
+  color: var(--bip-gold);
+  border-bottom-color: var(--bip-gold);
+}
+
 .ticket-section { display: flex; flex-direction: column; gap: 0.4rem; }
 .section-label {
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-secondary);
 }
@@ -599,17 +652,17 @@ const priceChange = computed(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.82rem;
+  font-size: var(--text-sm);
   color: var(--text-secondary);
 }
-.est-fee { font-size: 0.78rem; color: var(--text-muted); }
+.est-fee { font-size: var(--text-xs); color: var(--text-muted); }
 .est-divider {
   height: 1px;
   background: var(--surface-border);
   margin: 0.1rem 0;
 }
 .est-total {
-  font-size: 0.9rem;
+  font-size: var(--text-md);
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -624,12 +677,11 @@ const priceChange = computed(() => {
   border-radius: var(--radius-md);
   border: none;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   font-weight: 700;
   width: 100%;
   transition: all var(--transition-fast);
-  letter-spacing: 0.01em;
+  letter-spacing: var(--tracking-wide);
 }
 .submit-buy {
   background: linear-gradient(135deg, #059669, #047857);
@@ -677,8 +729,8 @@ const priceChange = computed(() => {
 }
 .conf-buy  { background: rgba(16,185,129,0.15); color: #34d399; }
 .conf-sell { background: rgba(239,68,68,0.15);  color: #f87171; }
-.confirm-title { font-size: 1.2rem; font-weight: 800; color: var(--text-primary); }
-.confirm-sub   { font-size: 0.875rem; color: var(--text-secondary); }
+.confirm-title { font-size: var(--text-lg); font-weight: 800; letter-spacing: var(--tracking-snug); color: var(--text-primary); }
+.confirm-sub   { font-size: var(--text-sm); color: var(--text-secondary); }
 .confirm-total {
   display: flex;
   justify-content: space-between;
@@ -688,7 +740,7 @@ const priceChange = computed(() => {
   border-radius: var(--radius-md);
   padding: 0.875rem 1rem;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   color: var(--text-primary);
   margin-top: 0.25rem;
 }

@@ -90,7 +90,15 @@ function emailFor(userId: string) {
                 :loading="savingUserId === data.id"
                 @update:model-value="(v) => changeRole(data, v)"
               />
-              <Tag v-else :value="data.role" />
+              <Tag
+                v-else
+                :value="data.role.replace('_', ' ').toUpperCase()"
+                :severity="
+                  data.role === 'super_admin' ? 'danger' :
+                  data.role === 'admin' ? 'info' :
+                  data.role === 'backoffice_operator' ? 'warn' : 'secondary'
+                "
+              />
             </template>
           </Column>
         </DataTable>
@@ -134,7 +142,7 @@ function emailFor(userId: string) {
   gap: 1.5rem;
 }
 .hint {
-  color: var(--p-text-muted-color);
+  color: var(--text-muted);
   font-size: 0.85rem;
 }
 </style>

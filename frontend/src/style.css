@@ -42,11 +42,43 @@ body {
   --surface-border:  rgba(255,255,255,0.07);
   --surface-border-strong: rgba(255,255,255,0.13);
 
-  /* Text */
+  /* Text — text-muted deliberately lighter than a "muted" gray usually is:
+     it carries timestamps, table meta and captions throughout the app, and
+     small text needs MORE contrast headroom than body text, not less. */
   --text-primary:    #f1f5f9;
-  --text-secondary:  #94a3b8;
-  --text-muted:      #475569;
+  --text-secondary:  #98a6bc;
+  --text-muted:      #6b7a94;
   --text-accent:     var(--bip-gold);
+
+  /* ---------- Typography scale ----------
+     One consistent scale used everywhere instead of ad-hoc rem values —
+     the single biggest lever for a page to read as deliberately designed
+     rather than assembled. Pick from these, don't invent new sizes. */
+  --text-2xs:  0.6875rem;  /* 11px — micro tags, dense table meta */
+  --text-xs:   0.75rem;    /* 12px — captions, timestamps, helper text */
+  --text-sm:   0.8125rem;  /* 13px — secondary body, buttons, form labels */
+  --text-base: 0.9375rem;  /* 15px — default body copy */
+  --text-md:   1.0625rem;  /* 17px — emphasized body, card titles */
+  --text-lg:   1.25rem;    /* 20px — h3 / section headers */
+  --text-xl:   1.5rem;     /* 24px — h2 */
+  --text-2xl:  1.875rem;   /* 30px — h1 */
+  --text-3xl:  2.5rem;     /* 40px — hero stat figures */
+
+  /* Letter-spacing scale — four values cover every case in this app. */
+  --tracking-tight:  -0.02em;  /* large headings, hero numbers */
+  --tracking-snug:   -0.01em;  /* h2/h3 */
+  --tracking-normal:  0em;
+  --tracking-wide:    0.015em; /* buttons, medium-emphasis labels */
+  --tracking-label:   0.05em;  /* uppercase micro-labels/eyebrows only */
+
+  /* Spacing scale — for consistent rhythm between sections/cards. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
 
   /* Spacing */
   --page-max-width: 1360px;
@@ -57,7 +89,8 @@ body {
   --radius-xl:      24px;
 
   /* Shadows */
-  --shadow-card:    0 1px 3px rgba(0,0,0,0.5), 0 4px 24px rgba(0,0,0,0.3);
+  --shadow-card:    0 1px 2px rgba(0,0,0,0.4), 0 8px 28px -6px rgba(0,0,0,0.45);
+  --shadow-raised:  0 4px 12px rgba(0,0,0,0.35), 0 16px 40px -8px rgba(0,0,0,0.5);
   --shadow-glow-blue: 0 0 0 1px var(--bip-blue-glow), 0 0 20px var(--bip-blue-glow);
   --shadow-glow-gold: 0 0 0 1px rgba(240,180,41,0.2), 0 0 24px rgba(240,180,41,0.12);
 
@@ -67,9 +100,11 @@ body {
 }
 
 /* ---------- Typography ---------- */
-h1 { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text-primary); line-height: 1.2; }
-h2 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); }
-h3 { font-size: 1.1rem;  font-weight: 600; color: var(--text-primary); }
+h1 { font-size: var(--text-2xl); font-weight: 800; letter-spacing: var(--tracking-tight); color: var(--text-primary); line-height: 1.2; }
+h2 { font-size: var(--text-xl);  font-weight: 700; letter-spacing: var(--tracking-snug);  color: var(--text-primary); line-height: 1.25; }
+h3 { font-size: var(--text-lg);  font-weight: 600; letter-spacing: var(--tracking-snug);  color: var(--text-primary); line-height: 1.3; }
+
+p { font-size: var(--text-base); line-height: 1.6; }
 
 a { color: var(--bip-gold); text-decoration: none; transition: color var(--transition-fast); }
 a:hover { color: var(--bip-gold-light); }
@@ -77,6 +112,37 @@ a:hover { color: var(--bip-gold-light); }
 code, .mono {
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
   font-size: 0.875em;
+}
+
+/* ---------- Eyebrow / micro-label ----------
+   The one pattern for uppercase micro-labels (stat labels, table headers,
+   section titles) — use this instead of restating font-size/tracking per
+   component. */
+.eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* ---------- Brand mark ----------
+   A single monogram treatment shared by the sidebar and the auth/KYC
+   pages — deliberately NOT the ₿ bitcoin glyph: this product simulates a
+   regional stock exchange (BRVM-style), and a crypto symbol on a listed-
+   equities product reads as a mismatch to anyone evaluating it seriously. */
+.brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f0b429, #d97706);
+  border-radius: 22%;
+  color: #1a1000;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.04em;
+  box-shadow: 0 4px 16px rgba(240,180,41,0.35);
+  flex-shrink: 0;
 }
 
 /* ---------- Number formatting ---------- */
@@ -220,7 +286,7 @@ code, .mono {
 }
 .p-menubar-item-link {
   font-weight: 500 !important;
-  font-size: 0.875rem !important;
+  font-size: var(--text-sm) !important;
   color: var(--text-secondary) !important;
   transition: color var(--transition-fast) !important;
   padding: 0.5rem 0.875rem !important;
@@ -246,9 +312,9 @@ code, .mono {
 }
 .p-card:hover { border-color: var(--surface-border-strong) !important; }
 .p-card-title {
-  font-size: 0.72rem !important;
+  font-size: var(--text-xs) !important;
   font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
+  letter-spacing: var(--tracking-label) !important;
   text-transform: uppercase !important;
   color: var(--text-secondary) !important;
   margin-bottom: 0.5rem !important;
@@ -260,53 +326,61 @@ code, .mono {
   border-radius: var(--radius-md) !important;
   overflow: hidden !important;
   border: 1px solid var(--surface-border) !important;
+  background: var(--surface-1) !important;
 }
 .p-datatable-table-container { background: var(--surface-1) !important; }
-.p-datatable-header-row {
+.p-datatable-thead > tr > th {
   background: var(--surface-2) !important;
   border-bottom: 1px solid var(--surface-border) !important;
-}
-.p-datatable-column-header-content {
-  font-size: 0.72rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase !important;
   color: var(--text-secondary) !important;
+  font-size: var(--text-xs) !important;
+  font-weight: 700 !important;
+  letter-spacing: var(--tracking-label) !important;
+  text-transform: uppercase !important;
+  padding: 1rem 1.25rem !important;
+}
+.p-datatable-tbody > tr > td {
+  font-size: var(--text-sm) !important;
+  color: var(--text-primary) !important;
+  padding: 1rem 1.25rem !important;
+  border-bottom: 1px solid var(--surface-border) !important;
 }
 .p-datatable-tbody > tr {
   background: var(--surface-1) !important;
-  border-bottom: 1px solid var(--surface-border) !important;
   transition: background var(--transition-fast) !important;
 }
 .p-datatable-tbody > tr:hover {
   background: var(--surface-2) !important;
 }
-.p-datatable-tbody > tr:last-child { border-bottom: none !important; }
+.p-datatable-tbody > tr:last-child > td { border-bottom: none !important; }
 .p-datatable-row-selected { background: rgba(59,130,246,0.1) !important; }
 
 /* Tags / Badges */
 .p-tag {
-  font-size: 0.68rem !important;
+  font-size: var(--text-2xs) !important;
   font-weight: 700 !important;
-  letter-spacing: 0.06em !important;
+  letter-spacing: var(--tracking-label) !important;
   text-transform: uppercase !important;
   border-radius: 99px !important;
   padding: 0.2rem 0.65rem !important;
+  background: rgba(59,130,246,0.15) !important;
+  color: #60a5fa !important;
+  border: 1px solid rgba(59,130,246,0.3) !important;
 }
-.p-tag-success { background: rgba(16,185,129,0.15) !important; color: #34d399 !important; border: 1px solid rgba(16,185,129,0.3) !important; }
-.p-tag-danger  { background: rgba(239,68,68,0.15)  !important; color: #f87171 !important; border: 1px solid rgba(239,68,68,0.3)  !important; }
-.p-tag-info    { background: rgba(59,130,246,0.15)  !important; color: #60a5fa !important; border: 1px solid rgba(59,130,246,0.3)  !important; }
-.p-tag-warn    { background: rgba(245,158,11,0.15)  !important; color: #fbbf24 !important; border: 1px solid rgba(245,158,11,0.3)  !important; }
-.p-tag-secondary { background: rgba(148,163,184,0.1) !important; color: #94a3b8 !important; border: 1px solid rgba(148,163,184,0.2) !important; }
+.p-tag-success { background: rgba(16,185,129,0.15) !important; color: #34d399 !important; border-color: rgba(16,185,129,0.3) !important; }
+.p-tag-danger  { background: rgba(239,68,68,0.15)  !important; color: #f87171 !important; border-color: rgba(239,68,68,0.3)  !important; }
+.p-tag-info    { background: rgba(59,130,246,0.15)  !important; color: #60a5fa !important; border-color: rgba(59,130,246,0.3)  !important; }
+.p-tag-warn    { background: rgba(245,158,11,0.15)  !important; color: #fbbf24 !important; border-color: rgba(245,158,11,0.3)  !important; }
+.p-tag-secondary { background: rgba(148,163,184,0.1) !important; color: #94a3b8 !important; border-color: rgba(148,163,184,0.2) !important; }
 
 /* Buttons */
 .p-button {
   font-family: 'Inter', sans-serif !important;
   font-weight: 600 !important;
-  font-size: 0.85rem !important;
+  font-size: var(--text-sm) !important;
   border-radius: var(--radius-md) !important;
   transition: all var(--transition-fast) !important;
-  letter-spacing: 0.01em !important;
+  letter-spacing: var(--tracking-wide) !important;
 }
 .p-button-primary {
   background: linear-gradient(135deg, #f0b429 0%, #d97706 100%) !important;
@@ -354,7 +428,7 @@ code, .mono {
   color: var(--text-primary) !important;
   border-radius: var(--radius-md) !important;
   font-family: 'Inter', sans-serif !important;
-  font-size: 0.875rem !important;
+  font-size: var(--text-sm) !important;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast) !important;
 }
 .p-inputtext:focus, .p-password-input:focus, .p-select:focus-within {
@@ -363,6 +437,11 @@ code, .mono {
   outline: none !important;
 }
 .p-inputtext::placeholder { color: var(--text-muted) !important; }
+label, .field label {
+  font-size: var(--text-sm) !important;
+  font-weight: 600 !important;
+  letter-spacing: var(--tracking-normal) !important;
+}
 
 /* SelectButton */
 .p-selectbutton {
@@ -375,7 +454,7 @@ code, .mono {
 .p-selectbutton-option {
   border-radius: calc(var(--radius-md) - 2px) !important;
   font-weight: 600 !important;
-  font-size: 0.82rem !important;
+  font-size: var(--text-sm) !important;
   color: var(--text-secondary) !important;
   transition: all var(--transition-fast) !important;
   border: none !important;
@@ -396,7 +475,7 @@ code, .mono {
   background: var(--surface-2) !important;
   border: 1px solid var(--surface-border-strong) !important;
   border-radius: var(--radius-xl) !important;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.6) !important;
+  box-shadow: var(--shadow-raised), 0 0 0 1px rgba(255,255,255,0.03) !important;
 }
 .p-dialog-header {
   background: var(--surface-2) !important;
@@ -404,7 +483,7 @@ code, .mono {
   padding: 1.25rem 1.5rem !important;
   border-radius: var(--radius-xl) var(--radius-xl) 0 0 !important;
 }
-.p-dialog-header-title { font-weight: 700 !important; font-size: 1rem !important; }
+.p-dialog-header-title { font-weight: 700 !important; font-size: var(--text-md) !important; letter-spacing: var(--tracking-snug) !important; }
 .p-dialog-content { padding: 1.5rem !important; background: var(--surface-2) !important; }
 .p-dialog-footer {
   background: var(--surface-2) !important;
@@ -432,7 +511,7 @@ code, .mono {
 .p-message {
   border-radius: var(--radius-md) !important;
   border: 1px solid !important;
-  font-size: 0.875rem !important;
+  font-size: var(--text-sm) !important;
 }
 .p-message-success { background: rgba(16,185,129,0.1) !important; border-color: rgba(16,185,129,0.3) !important; color: #34d399 !important; }
 .p-message-warn    { background: rgba(245,158,11,0.1) !important; border-color: rgba(245,158,11,0.3) !important; color: #fbbf24 !important; }
@@ -440,18 +519,22 @@ code, .mono {
 .p-message-info    { background: rgba(59,130,246,0.1)  !important; border-color: rgba(59,130,246,0.3)  !important; color: #60a5fa !important; }
 
 /* Select / Dropdown */
-.p-select-panel, .p-datepicker-panel {
+.p-select-overlay, .p-datepicker-panel, .p-popover {
   background: var(--surface-2) !important;
   border: 1px solid var(--surface-border-strong) !important;
   border-radius: var(--radius-md) !important;
   box-shadow: 0 8px 30px rgba(0,0,0,0.4) !important;
 }
+.p-select-option, .p-select-list-container {
+  background: var(--surface-2) !important;
+}
 .p-select-option {
   color: var(--text-secondary) !important;
   font-size: 0.875rem !important;
   transition: background var(--transition-fast) !important;
+  padding: 0.5rem 0.875rem !important;
 }
-.p-select-option:hover, .p-select-option-selected {
+.p-select-option:hover, .p-select-option-selected, .p-select-option-focused {
   background: var(--surface-3) !important;
   color: var(--text-primary) !important;
 }

@@ -217,12 +217,12 @@ function timeAgo(dateStr: string) {
 
 /* Header */
 .greeting-sub {
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
   color: var(--text-muted);
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.25rem;
 }
 .header-actions { display: flex; gap: 0.75rem; }
 
@@ -277,35 +277,33 @@ function timeAgo(dateStr: string) {
 
 .stat-body { min-width: 0; }
 .stat-label {
-  font-size: 0.7rem;
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-secondary);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
 }
 .stat-value {
-  font-size: 1.5rem;
+  font-size: var(--text-xl);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.15;
   color: var(--text-primary);
 }
 .currency {
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--text-muted);
-  font-family: 'Inter', sans-serif;
 }
 .pct-badge {
   display: inline-block;
-  font-size: 0.7rem;
+  font-size: var(--text-xs);
   font-weight: 700;
-  padding: 0.1rem 0.4rem;
+  padding: 0.1rem 0.45rem;
   border-radius: 99px;
   margin-left: 0.35rem;
-  font-family: 'Inter', sans-serif;
-  letter-spacing: 0.03em;
+  letter-spacing: var(--tracking-normal);
 }
 .pct-pos { background: rgba(16,185,129,0.15); color: var(--bip-green); }
 .pct-neg { background: rgba(239,68,68,0.15);  color: var(--bip-red); }
@@ -333,9 +331,9 @@ function timeAgo(dateStr: string) {
   margin-bottom: 1.25rem;
 }
 .panel-header h2 {
-  font-size: 0.85rem;
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-secondary);
 }
@@ -344,12 +342,11 @@ function timeAgo(dateStr: string) {
   border: none;
   color: var(--bip-gold);
   cursor: pointer;
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  font-family: 'Inter', sans-serif;
   transition: color var(--transition-fast);
 }
 .panel-link:hover { color: var(--bip-gold-light); }
@@ -369,9 +366,9 @@ function timeAgo(dateStr: string) {
 }
 .order-row:hover { background: var(--surface-3); border-color: var(--surface-border-strong); }
 .order-side-badge {
-  font-size: 0.65rem;
+  font-size: var(--text-2xs);
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-label);
   padding: 0.2rem 0.55rem;
   border-radius: 99px;
   flex-shrink: 0;
@@ -379,10 +376,10 @@ function timeAgo(dateStr: string) {
 .side-buy  { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
 .side-sell { background: rgba(239,68,68,0.15);  color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
 .order-info { flex: 1; min-width: 0; }
-.order-qty  { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
-.order-time { font-size: 0.72rem; color: var(--text-muted); margin-top: 1px; }
+.order-qty  { font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); }
+.order-time { font-size: var(--text-xs); color: var(--text-muted); margin-top: 1px; }
 .order-amount {
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--text-secondary);
   text-align: right;
@@ -407,8 +404,8 @@ function timeAgo(dateStr: string) {
   text-align: center;
   color: var(--text-muted);
 }
-.panel-empty .pi { font-size: 2rem; }
-.panel-empty p { font-size: 0.85rem; max-width: 240px; }
+.panel-empty .pi { font-size: 1.85rem; }
+.panel-empty p { font-size: var(--text-sm); max-width: 240px; }
 
 /* Quick actions */
 .quick-actions { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
@@ -422,7 +419,6 @@ function timeAgo(dateStr: string) {
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: background var(--transition-fast), border-color var(--transition-fast);
-  font-family: 'Inter', sans-serif;
   text-align: left;
   width: 100%;
 }
@@ -441,8 +437,8 @@ function timeAgo(dateStr: string) {
 .qa-purple { background: rgba(99,102,241,0.12);  color: #818cf8; }
 .qa-gold   { background: rgba(240,180,41,0.12);  color: var(--bip-gold); }
 .qa-teal   { background: rgba(20,184,166,0.12);  color: #2dd4bf; }
-.qa-label  { flex: 1; font-size: 0.875rem; font-weight: 600; color: var(--text-primary); }
-.qa-arrow  { color: var(--text-muted); font-size: 0.8rem; }
+.qa-label  { flex: 1; font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); }
+.qa-arrow  { color: var(--text-muted); font-size: var(--text-sm); }
 
 /* Disclaimer */
 .disclaimer-box {
@@ -456,9 +452,9 @@ function timeAgo(dateStr: string) {
 }
 .disclaimer-dot { padding-top: 2px; }
 .disclaimer-text {
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
   color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 .disclaimer-text strong { display: block; color: var(--bip-green); margin-bottom: 2px; }
 </style>

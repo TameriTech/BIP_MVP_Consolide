@@ -73,6 +73,8 @@ watch(statusFilter, load);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 .filter {
   min-width: 200px;

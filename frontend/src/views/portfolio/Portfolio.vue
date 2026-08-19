@@ -108,7 +108,8 @@ function plPrefix(val: string) {
         </div>
       </div>
 
-      <table v-else-if="portfolio.portfolio?.positions.length" class="pos-table">
+      <div v-else-if="portfolio.portfolio?.positions.length" class="table-scroll">
+      <table class="pos-table">
         <thead>
           <tr>
             <th>Symbol</th>
@@ -153,6 +154,7 @@ function plPrefix(val: string) {
           </tr>
         </tbody>
       </table>
+      </div>
 
       <div v-else class="empty-state">
         <i class="pi pi-briefcase"></i>
@@ -206,11 +208,11 @@ function plPrefix(val: string) {
 .sum-icon-pos      { background: rgba(16,185,129,0.12);  color: var(--bip-green); }
 .sum-icon-neg      { background: rgba(239,68,68,0.12);   color: var(--bip-red); }
 
-.sum-label   { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.3rem; }
-.sum-value   { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--text-primary); }
+.sum-label   { font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.35rem; }
+.sum-value   { font-size: var(--text-lg); font-weight: 800; letter-spacing: var(--tracking-tight); line-height: 1.15; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; }
 .sum-value-total { color: var(--bip-gold); }
-.sum-currency { font-size: 0.68rem; color: var(--text-muted); margin-top: 1px; font-weight: 600; }
-.sum-pct { font-size: 0.78rem; font-weight: 700; margin-top: 2px; }
+.sum-currency { font-size: var(--text-2xs); color: var(--text-muted); margin-top: 2px; font-weight: 600; }
+.sum-pct { font-size: var(--text-xs); font-weight: 700; margin-top: 2px; }
 
 /* Panel */
 .panel {
@@ -228,15 +230,15 @@ function plPrefix(val: string) {
   border-bottom: 1px solid var(--surface-border);
 }
 .panel-header h2 {
-  font-size: 0.82rem;
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-secondary);
   margin: 0;
 }
 .positions-count {
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   color: var(--text-muted);
   background: var(--surface-2);
   border: 1px solid var(--surface-border);
@@ -246,14 +248,15 @@ function plPrefix(val: string) {
 }
 
 /* Table */
-.pos-table { width: 100%; border-collapse: collapse; }
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.pos-table { width: 100%; min-width: 720px; border-collapse: collapse; }
 .pos-table thead tr { background: var(--surface-2); border-bottom: 1px solid var(--surface-border); }
 .pos-table th {
   padding: 0.75rem 1.25rem;
   text-align: left;
-  font-size: 0.68rem;
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-secondary);
   white-space: nowrap;
@@ -265,7 +268,7 @@ function plPrefix(val: string) {
 }
 .pos-row:hover { background: var(--surface-2); }
 .pos-row:last-child { border-bottom: none; }
-.pos-table td { padding: 0.9rem 1.25rem; vertical-align: middle; font-size: 0.875rem; color: var(--text-secondary); }
+.pos-table td { padding: 0.9rem 1.25rem; vertical-align: middle; font-size: var(--text-sm); color: var(--text-secondary); }
 
 .sym-cell { display: flex; align-items: center; gap: 0.6rem; }
 .sym-badge {
@@ -274,13 +277,13 @@ function plPrefix(val: string) {
   border: 1px solid var(--surface-border-strong);
   border-radius: 7px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.6rem; font-weight: 900; color: var(--bip-gold);
+  font-size: var(--text-2xs); font-weight: 800; color: var(--bip-gold);
   flex-shrink: 0;
 }
-.sym-text { font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
+.sym-text { font-weight: 700; font-size: var(--text-base); color: var(--text-primary); }
 .qty-cell { color: var(--text-primary); font-weight: 600; }
 .reserved-tag {
-  font-size: 0.72rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: #94a3b8;
   background: rgba(100,116,139,0.1);
@@ -289,7 +292,7 @@ function plPrefix(val: string) {
   padding: 0.1rem 0.5rem;
 }
 .fw-bold { font-weight: 700; color: var(--text-primary) !important; }
-.pl-cell { font-size: 0.82rem; font-weight: 700; }
+.pl-cell { font-size: var(--text-sm); font-weight: 700; }
 .text-muted { color: var(--text-muted); }
 
 .empty-state {
@@ -302,8 +305,8 @@ function plPrefix(val: string) {
   text-align: center;
   color: var(--text-muted);
 }
-.empty-state .pi { font-size: 2.5rem; }
-.empty-state p { font-size: 0.9rem; }
+.empty-state .pi { font-size: 2.25rem; }
+.empty-state p { font-size: var(--text-base); }
 
 /* Skeleton */
 .loading-rows { display: flex; flex-direction: column; }

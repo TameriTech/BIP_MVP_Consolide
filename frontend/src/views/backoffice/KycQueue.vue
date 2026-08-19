@@ -127,6 +127,8 @@ async function confirmReject() {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 .filter {
   min-width: 260px;
@@ -143,6 +145,6 @@ label {
   font-size: 0.9rem;
 }
 .empty {
-  color: var(--p-text-muted-color);
+  color: var(--text-muted);
 }
 </style>

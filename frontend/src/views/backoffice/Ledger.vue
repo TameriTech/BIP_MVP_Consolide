@@ -51,11 +51,11 @@ onMounted(async () => {
   gap: 1rem;
 }
 .pos {
-  color: var(--p-green-600);
+  color: var(--bip-green);
   font-weight: 600;
 }
 .neg {
-  color: var(--p-red-600);
+  color: var(--bip-red);
   font-weight: 600;
 }
 </style>

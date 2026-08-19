@@ -54,6 +54,7 @@ function fmtDate(d: string) {
 
     <!-- Orders table -->
     <div v-else-if="orders.orders.length" class="orders-panel">
+      <div class="table-scroll">
       <table class="orders-table">
         <thead>
           <tr>
@@ -93,6 +94,7 @@ function fmtDate(d: string) {
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
 
     <!-- Empty state -->
@@ -112,7 +114,7 @@ function fmtDate(d: string) {
 <style scoped>
 .page { display: flex; flex-direction: column; gap: 1.5rem; }
 .order-count {
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--text-muted);
   background: var(--surface-2);
@@ -128,7 +130,8 @@ function fmtDate(d: string) {
   overflow: hidden;
   box-shadow: var(--shadow-card);
 }
-.orders-table { width: 100%; border-collapse: collapse; }
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.orders-table { width: 100%; min-width: 640px; border-collapse: collapse; }
 .orders-table thead tr {
   background: var(--surface-2);
   border-bottom: 1px solid var(--surface-border);
@@ -136,9 +139,9 @@ function fmtDate(d: string) {
 .orders-table th {
   padding: 0.875rem 1.25rem;
   text-align: left;
-  font-size: 0.68rem;
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-secondary);
 }
@@ -150,25 +153,25 @@ function fmtDate(d: string) {
 }
 .order-row:hover { background: var(--surface-2); }
 .order-row:last-child { border-bottom: none; }
-.orders-table td { padding: 0.9rem 1.25rem; vertical-align: middle; font-size: 0.875rem; color: var(--text-secondary); }
+.orders-table td { padding: 0.9rem 1.25rem; vertical-align: middle; font-size: var(--text-sm); color: var(--text-secondary); }
 
-.date-cell { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
+.date-cell { font-size: var(--text-xs); color: var(--text-muted); white-space: nowrap; }
 .side-badge {
   display: inline-flex; align-items: center; gap: 0.3rem;
-  font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em;
+  font-size: var(--text-2xs); font-weight: 800; letter-spacing: var(--tracking-label);
   padding: 0.2rem 0.65rem; border-radius: 99px;
 }
 .side-buy  { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
 .side-sell { background: rgba(239,68,68,0.12);  color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
 
 .type-cell { color: var(--text-primary); font-weight: 500; }
-.limit-price { color: var(--text-muted); font-size: 0.8rem; }
-.qty-cell { font-weight: 700; color: var(--text-primary); }
-.amount-cell { font-weight: 600; color: var(--text-primary); }
+.limit-price { color: var(--text-muted); font-size: var(--text-xs); }
+.qty-cell { font-weight: 700; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; }
+.amount-cell { font-weight: 600; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; }
 
 .status-pill {
   display: inline-flex; align-items: center;
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  font-size: var(--text-2xs); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase;
   padding: 0.2rem 0.65rem; border-radius: 99px;
 }
 .status-success { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
@@ -190,9 +193,9 @@ function fmtDate(d: string) {
   display: flex; flex-direction: column; align-items: center; gap: 0.75rem; text-align: center;
   color: var(--text-muted);
 }
-.empty-inner .pi { font-size: 3rem; margin-bottom: 0.25rem; }
-.empty-inner h3 { font-size: 1rem; color: var(--text-primary); }
-.empty-inner p { font-size: 0.875rem; max-width: 280px; }
+.empty-inner .pi { font-size: 2.75rem; margin-bottom: 0.25rem; }
+.empty-inner h3 { font-size: var(--text-md); color: var(--text-primary); }
+.empty-inner p { font-size: var(--text-sm); max-width: 280px; }
 .go-btn {
   display: inline-flex; align-items: center; gap: 0.5rem;
   padding: 0.6rem 1.25rem;
@@ -200,7 +203,7 @@ function fmtDate(d: string) {
   border: 1px solid var(--surface-border-strong);
   border-radius: var(--radius-md);
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+  font-size: var(--text-sm); font-weight: 600;
   cursor: pointer;
   margin-top: 0.25rem;
   transition: background var(--transition-fast);

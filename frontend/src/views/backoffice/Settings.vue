@@ -115,7 +115,7 @@ label {
   font-size: 0.9rem;
 }
 .hint {
-  color: var(--p-text-muted-color);
+  color: var(--text-muted);
   font-size: 0.85rem;
 }
 </style>

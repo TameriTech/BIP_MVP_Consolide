@@ -40,7 +40,7 @@ async function submit() {
     <div class="auth-card animate-fade-up">
       <!-- Logo -->
       <div class="auth-logo">
-        <div class="logo-icon">₿</div>
+        <div class="brand-mark logo-icon">B</div>
         <div class="logo-text">
           <span class="logo-name">BIP</span>
           <span class="logo-sub">Bourse d'Investissement Participatif</span>
@@ -158,29 +158,20 @@ async function submit() {
 .logo-icon {
   width: 44px;
   height: 44px;
-  background: linear-gradient(135deg, #f0b429, #d97706);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: #1a1000;
-  font-weight: 900;
-  box-shadow: 0 4px 16px rgba(240,180,41,0.35);
-  flex-shrink: 0;
+  font-size: 1.35rem;
 }
 .logo-text { display: flex; flex-direction: column; }
 .logo-name {
-  font-size: 1.3rem;
-  font-weight: 900;
-  letter-spacing: -0.02em;
+  font-size: var(--text-lg);
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight);
   color: var(--text-primary);
-  line-height: 1;
+  line-height: 1.1;
 }
 .logo-sub {
-  font-size: 0.62rem;
+  font-size: var(--text-2xs);
   color: var(--text-muted);
-  margin-top: 2px;
+  margin-top: 3px;
 }
 .auth-divider {
   height: 1px;
@@ -189,13 +180,14 @@ async function submit() {
 }
 .auth-header { margin-bottom: 1.5rem; }
 .auth-header h1 {
-  font-size: 1.4rem;
+  font-size: var(--text-xl);
   font-weight: 800;
+  letter-spacing: var(--tracking-tight);
   color: var(--text-primary);
   margin-bottom: 0.3rem;
 }
 .auth-header p {
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 .auth-form {
@@ -209,16 +201,15 @@ async function submit() {
   gap: 0.4rem;
 }
 .field label {
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--text-secondary);
-  letter-spacing: 0.02em;
 }
 .submit-btn { margin-top: 0.25rem; }
 .auth-switch {
   margin-top: 1.25rem;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 .info-box {
@@ -226,13 +217,13 @@ async function submit() {
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
   color: var(--text-muted);
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--surface-border);
   border-radius: var(--radius-md);
-  padding: 0.75rem;
-  line-height: 1.5;
+  padding: 0.75rem 0.875rem;
+  line-height: 1.55;
 }
 .info-box .pi { color: var(--bip-blue); margin-top: 1px; flex-shrink: 0; }
 </style>

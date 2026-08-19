@@ -87,6 +87,7 @@ function fmtDate(d: string) {
 
     <!-- Ledger table -->
     <div v-else-if="entries.length" class="ledger-panel">
+      <div class="table-scroll">
       <table class="ledger-table">
         <thead>
           <tr>
@@ -124,6 +125,7 @@ function fmtDate(d: string) {
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
 
     <!-- Empty state -->
@@ -136,7 +138,7 @@ function fmtDate(d: string) {
 
 <style scoped>
 .page { display: flex; flex-direction: column; gap: 1.5rem; }
-.sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; }
+.sub { font-size: var(--text-sm); color: var(--text-muted); margin-top: 0.25rem; }
 
 /* Filter chips */
 .filter-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
@@ -146,10 +148,9 @@ function fmtDate(d: string) {
   border: 1px solid var(--surface-border-strong);
   background: var(--surface-2);
   color: var(--text-secondary);
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
   transition: all var(--transition-fast);
 }
 .filter-chip:hover { background: var(--surface-3); color: var(--text-primary); }
@@ -167,14 +168,15 @@ function fmtDate(d: string) {
   overflow: hidden;
   box-shadow: var(--shadow-card);
 }
-.ledger-table { width: 100%; border-collapse: collapse; }
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.ledger-table { width: 100%; min-width: 680px; border-collapse: collapse; }
 .ledger-table thead tr { background: var(--surface-2); border-bottom: 1px solid var(--surface-border); }
 .ledger-table th {
   padding: 0.875rem 1.25rem;
   text-align: left;
-  font-size: 0.68rem;
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-secondary);
 }
@@ -185,13 +187,13 @@ function fmtDate(d: string) {
 }
 .ledger-row:hover { background: var(--surface-2); }
 .ledger-row:last-child { border-bottom: none; }
-.ledger-table td { padding: 0.875rem 1.25rem; vertical-align: middle; font-size: 0.875rem; }
+.ledger-table td { padding: 0.875rem 1.25rem; vertical-align: middle; font-size: var(--text-sm); }
 
-.date-cell { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+.date-cell { font-size: var(--text-xs); color: var(--text-muted); white-space: nowrap; }
 
 .type-badge {
   display: inline-flex; align-items: center; gap: 0.35rem;
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+  font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--tracking-wide);
   padding: 0.2rem 0.65rem; border-radius: 99px;
 }
 .type-credit { background: rgba(240,180,41,0.12); color: var(--bip-gold); border: 1px solid rgba(240,180,41,0.25); }
@@ -199,19 +201,18 @@ function fmtDate(d: string) {
 .type-sell   { background: rgba(239,68,68,0.12);   color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
 .type-fee    { background: rgba(100,116,139,0.1);  color: #94a3b8; border: 1px solid rgba(100,116,139,0.2); }
 
-.amount { font-weight: 700; font-size: 0.9rem; }
+.amount { font-weight: 700; font-size: var(--text-base); font-family: 'JetBrains Mono', monospace; }
 .pos { color: var(--bip-green) !important; }
 .neg { color: var(--bip-red)   !important; }
-.balance { color: var(--text-primary); font-weight: 600; }
+.balance { color: var(--text-primary); font-weight: 600; font-family: 'JetBrains Mono', monospace; }
 
 .ref-cell code {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
+  font-size: var(--text-xs);
   color: var(--bip-gold);
   background: rgba(240,180,41,0.07);
   padding: 0.1rem 0.45rem;
   border-radius: 4px;
-  letter-spacing: 0.01em;
 }
 .text-muted { color: var(--text-muted); }
 
@@ -224,8 +225,8 @@ function fmtDate(d: string) {
   border: 1px solid var(--surface-border);
   border-radius: var(--radius-lg);
 }
-.empty-panel .pi { font-size: 2.5rem; }
-.empty-panel p { font-size: 0.9rem; }
+.empty-panel .pi { font-size: 2.25rem; }
+.empty-panel p { font-size: var(--text-base); }
 
 /* Skeleton */
 .skeleton-row { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--surface-border); }

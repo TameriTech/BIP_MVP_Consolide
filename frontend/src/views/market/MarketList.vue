@@ -86,7 +86,8 @@ function fmtPrice(val: string | null) {
         </div>
       </div>
 
-      <table v-else class="market-table">
+      <div v-else class="table-scroll">
+      <table class="market-table">
         <thead>
           <tr>
             <th>Symbol</th>
@@ -132,6 +133,7 @@ function fmtPrice(val: string | null) {
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </template>
@@ -140,16 +142,16 @@ function fmtPrice(val: string | null) {
 .page { display: flex; flex-direction: column; gap: 1.5rem; }
 
 .sub {
-  font-size: 0.82rem;
+  font-size: var(--text-sm);
   color: var(--text-muted);
-  margin-top: 0.2rem;
+  margin-top: 0.25rem;
 }
 
 .sim-pill {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.72rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--bip-green);
   background: rgba(16,185,129,0.08);
@@ -172,7 +174,7 @@ function fmtPrice(val: string | null) {
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   pointer-events: none;
 }
 .search-input { width: 100%; padding-left: 2.5rem !important; }
@@ -184,10 +186,9 @@ function fmtPrice(val: string | null) {
   border: 1px solid var(--surface-border-strong);
   background: var(--surface-2);
   color: var(--text-secondary);
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
   transition: all var(--transition-fast);
 }
 .sector-chip:hover { background: var(--surface-3); color: var(--text-primary); }
@@ -205,8 +206,13 @@ function fmtPrice(val: string | null) {
   overflow: hidden;
   box-shadow: var(--shadow-card);
 }
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .market-table {
   width: 100%;
+  min-width: 640px;
   border-collapse: collapse;
 }
 .market-table thead tr {
@@ -216,9 +222,9 @@ function fmtPrice(val: string | null) {
 .market-table th {
   padding: 0.875rem 1.25rem;
   text-align: left;
-  font-size: 0.7rem;
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-secondary);
   white-space: nowrap;
@@ -243,18 +249,17 @@ function fmtPrice(val: string | null) {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.65rem;
+  font-size: var(--text-2xs);
   font-weight: 800;
   color: var(--bip-gold);
-  letter-spacing: 0.02em;
   flex-shrink: 0;
 }
-.symbol-text { font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
+.symbol-text { font-weight: 700; font-size: var(--text-base); color: var(--text-primary); }
 
-.company-cell { color: var(--text-secondary); font-size: 0.875rem; max-width: 260px; }
+.company-cell { color: var(--text-secondary); font-size: var(--text-sm); max-width: 260px; }
 
 .sector-tag {
-  font-size: 0.7rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--text-muted);
   background: var(--surface-2);
@@ -264,19 +269,19 @@ function fmtPrice(val: string | null) {
 }
 
 .price-cell {
-  font-size: 0.925rem;
+  font-size: var(--text-md);
   font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.01em;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .status-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.7rem;
+  font-size: var(--text-2xs);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   padding: 0.2rem 0.65rem;
   border-radius: 99px;
@@ -294,7 +299,7 @@ function fmtPrice(val: string | null) {
   text-align: center;
   padding: 3rem !important;
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: var(--text-base);
   display: flex;
   flex-direction: column;
   align-items: center;
