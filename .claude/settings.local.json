@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker compose *)",
+      "Bash(docker buildx *)",
+      "Bash(curl -s -o /tmp/health.json -w \"HTTP %{http_code}\\\\n\" http://localhost:8010/health)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:8010/docs)"
+    ]
+  }
+}
