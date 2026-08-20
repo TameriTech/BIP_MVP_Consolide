@@ -35,7 +35,7 @@ const statusSeverity: Record<string, string> = {
 
 function fmt(val: string | null | undefined) {
   if (val === null || val === undefined) return "—";
-  return `${Number(val).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} XOF`;
+  return `${Number(val).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`;
 }
 
 function fmtDate(d: string) {

@@ -47,7 +47,7 @@ function plPrefix(val: string) {
         <div>
           <div class="sum-label">Cash Available</div>
           <div class="sum-value num">{{ fmt(portfolio.portfolio.cash_available) }}</div>
-          <div class="sum-currency">XOF</div>
+          <div class="sum-currency">{{ portfolio.portfolio.currency }}</div>
         </div>
       </div>
       <div class="sum-card animate-fade-up stagger-2">
@@ -55,7 +55,7 @@ function plPrefix(val: string) {
         <div>
           <div class="sum-label">Cash Reserved</div>
           <div class="sum-value num">{{ fmt(portfolio.portfolio.cash_reserved) }}</div>
-          <div class="sum-currency">XOF</div>
+          <div class="sum-currency">{{ portfolio.portfolio.currency }}</div>
         </div>
       </div>
       <div class="sum-card animate-fade-up stagger-3">
@@ -63,7 +63,7 @@ function plPrefix(val: string) {
         <div>
           <div class="sum-label">Positions Value</div>
           <div class="sum-value num">{{ fmt(portfolio.portfolio.positions_value) }}</div>
-          <div class="sum-currency">XOF</div>
+          <div class="sum-currency">{{ portfolio.portfolio.currency }}</div>
         </div>
       </div>
       <div class="sum-card sum-card-total animate-fade-up stagger-4">
@@ -71,7 +71,7 @@ function plPrefix(val: string) {
         <div>
           <div class="sum-label">Total Value</div>
           <div class="sum-value sum-value-total num">{{ fmt(portfolio.portfolio.total_value) }}</div>
-          <div class="sum-currency">XOF</div>
+          <div class="sum-currency">{{ portfolio.portfolio.currency }}</div>
         </div>
       </div>
       <div v-if="portfolio.performance" class="sum-card animate-fade-up stagger-5"
@@ -115,9 +115,9 @@ function plPrefix(val: string) {
             <th>Symbol</th>
             <th>Quantity</th>
             <th>Reserved</th>
-            <th>Avg Cost (XOF)</th>
-            <th>Last Price (XOF)</th>
-            <th>Market Value (XOF)</th>
+            <th>Avg Cost ({{ portfolio.portfolio?.currency }})</th>
+            <th>Last Price ({{ portfolio.portfolio?.currency }})</th>
+            <th>Market Value ({{ portfolio.portfolio?.currency }})</th>
             <th>P&amp;L</th>
           </tr>
         </thead>

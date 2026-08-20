@@ -86,3 +86,57 @@ def test_change_password_wrong_current_is_401(client):
         json={"current_password": "totally wrong", "new_password": "NewPass123!"},
     )
     assert r.status_code == 401
+
+
+def test_forgot_password_then_reset_then_login_with_new_password(client):
+    client.post(
+        "/api/v1/auth/register",
+        json={"email": "grace@example.com", "password": "OldPass123!", "full_name": "Grace"},
+    )
+
+    r = client.post("/api/v1/auth/forgot-password", json={"email": "grace@example.com"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["reset_token"] is not None
+
+    r = client.post(
+        "/api/v1/auth/reset-password",
+        json={"token": body["reset_token"], "new_password": "NewPass123!"},
+    )
+    assert r.status_code == 204
+
+    r = client.post("/api/v1/auth/login", json={"email": "grace@example.com", "password": "OldPass123!"})
+    assert r.status_code == 401
+    r = client.post("/api/v1/auth/login", json={"email": "grace@example.com", "password": "NewPass123!"})
+    assert r.status_code == 200
+
+
+def test_forgot_password_unknown_email_returns_generic_response_without_token(client):
+    r = client.post("/api/v1/auth/forgot-password", json={"email": "nobody@example.com"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["reset_token"] is None
+    assert "message" in body
+
+
+def test_reset_password_rejects_unknown_token(client):
+    r = client.post(
+        "/api/v1/auth/reset-password",
+        json={"token": "not-a-real-token", "new_password": "NewPass123!"},
+    )
+    assert r.status_code == 401
+
+
+def test_reset_password_token_is_single_use(client):
+    client.post(
+        "/api/v1/auth/register",
+        json={"email": "heidi@example.com", "password": "OldPass123!", "full_name": "Heidi"},
+    )
+    r = client.post("/api/v1/auth/forgot-password", json={"email": "heidi@example.com"})
+    token = r.json()["reset_token"]
+
+    r = client.post("/api/v1/auth/reset-password", json={"token": token, "new_password": "NewPass123!"})
+    assert r.status_code == 204
+
+    r = client.post("/api/v1/auth/reset-password", json={"token": token, "new_password": "AnotherPass123!"})
+    assert r.status_code == 401

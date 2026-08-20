@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     quote_refresh_interval_minutes: int = 15
     initial_credit_amount: str = "100000.00"
     fee_rate_bps: int = 10  # 0.10%
+    password_reset_expire_minutes: int = 30
     testing: bool = False
 
 

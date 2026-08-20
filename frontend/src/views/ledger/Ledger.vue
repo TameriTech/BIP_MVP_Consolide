@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 import { ledgerApi } from "@/api/ledger";
 import type { LedgerEntry, LedgerEntryType } from "@/api/types";
@@ -7,6 +7,7 @@ import type { LedgerEntry, LedgerEntryType } from "@/api/types";
 const entries = ref<LedgerEntry[]>([]);
 const loading = ref(true);
 const typeFilter = ref<LedgerEntryType | null>(null);
+const currency = computed(() => entries.value[0]?.currency ?? "USD");
 
 const typeOptions: { label: string; value: LedgerEntryType | null }[] = [
   { label: "All", value: null },
@@ -93,8 +94,8 @@ function fmtDate(d: string) {
           <tr>
             <th>Date & Time</th>
             <th>Type</th>
-            <th class="right-align">Amount (XOF)</th>
-            <th class="right-align">Balance After (XOF)</th>
+            <th class="right-align">Amount ({{ currency }})</th>
+            <th class="right-align">Balance After ({{ currency }})</th>
             <th>Reference</th>
           </tr>
         </thead>

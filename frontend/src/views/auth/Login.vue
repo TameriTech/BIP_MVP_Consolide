@@ -69,7 +69,10 @@ async function submit() {
         </div>
 
         <div class="field">
-          <label for="password">Password</label>
+          <div class="field-label-row">
+            <label for="password">Password</label>
+            <router-link to="/forgot-password" class="forgot-link">Forgot password?</router-link>
+          </div>
           <Password
             id="password"
             v-model="password"
@@ -235,6 +238,19 @@ async function submit() {
   font-weight: 600;
   color: var(--text-secondary);
 }
+.field-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.forgot-link {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--bip-gold);
+  text-decoration: none;
+}
+.forgot-link:hover { color: var(--bip-gold-light); }
 .submit-btn {
   margin-top: 0.25rem;
 }

@@ -1,0 +1,197 @@
+<script setup lang="ts">
+import Button from "primevue/button";
+import InputText from "primevue/inputtext";
+import Message from "primevue/message";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+import { authApi } from "@/api/auth";
+import { errorMessage } from "@/api/http";
+
+const router = useRouter();
+
+const email = ref("");
+const loading = ref(false);
+const error = ref("");
+const submitted = ref(false);
+const resetToken = ref<string | null>(null);
+
+async function submit() {
+  loading.value = true;
+  error.value = "";
+  try {
+    const res = await authApi.forgotPassword({ email: email.value });
+    resetToken.value = res.reset_token;
+    submitted.value = true;
+  } catch (e) {
+    error.value = errorMessage(e);
+  } finally {
+    loading.value = false;
+  }
+}
+
+function goToReset() {
+  router.push({ name: "reset-password", query: { token: resetToken.value } });
+}
+</script>
+
+<template>
+  <div class="auth-page">
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-glow" aria-hidden="true"></div>
+
+    <div class="auth-card animate-fade-up">
+      <div class="auth-logo">
+        <div class="brand-mark logo-icon">B</div>
+        <div class="logo-text">
+          <span class="logo-name">BIP</span>
+          <span class="logo-sub">Bourse d'Investissement Participatif</span>
+        </div>
+      </div>
+
+      <div class="auth-divider"></div>
+
+      <template v-if="!submitted">
+        <div class="auth-header">
+          <h1>Reset your password</h1>
+          <p>Enter your account email and we'll issue a reset link.</p>
+        </div>
+
+        <form class="auth-form" @submit.prevent="submit">
+          <div class="field">
+            <label for="email">Email address</label>
+            <InputText
+              id="email"
+              v-model="email"
+              type="email"
+              placeholder="you@example.com"
+              required
+              autofocus
+              fluid
+            />
+          </div>
+
+          <Message v-if="error" severity="error" :closable="false">{{ error }}</Message>
+
+          <Button type="submit" label="Send reset link" :loading="loading" fluid class="submit-btn" />
+        </form>
+      </template>
+
+      <template v-else>
+        <div class="auth-header">
+          <h1>Check your request</h1>
+          <p>If an account exists for <strong>{{ email }}</strong>, a reset link has been issued.</p>
+        </div>
+
+        <div v-if="resetToken" class="info-box demo-note">
+          <i class="pi pi-info-circle"></i>
+          <div>
+            This is a simulated MVP with no outbound email — in production this link would be
+            emailed to you. For this demo, continue directly below.
+          </div>
+        </div>
+
+        <Button
+          v-if="resetToken"
+          label="Continue to reset password"
+          fluid
+          class="submit-btn"
+          @click="goToReset"
+        />
+      </template>
+
+      <p class="auth-switch">
+        Remembered it?
+        <router-link to="/login">Back to sign in</router-link>
+      </p>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-0);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+.bg-glow {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse at center, rgba(240,180,41,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: linear-gradient(145deg, var(--surface-1) 0%, var(--surface-2) 100%);
+  border: 1px solid var(--surface-border-strong);
+  border-radius: var(--radius-xl);
+  padding: 2.25rem;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+  position: relative;
+  z-index: 1;
+}
+.auth-logo { display: flex; align-items: center; gap: 0.75rem; }
+.logo-icon { width: 44px; height: 44px; font-size: 1.35rem; }
+.logo-text { display: flex; flex-direction: column; }
+.logo-name {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+.logo-sub { font-size: var(--text-2xs); color: var(--text-muted); margin-top: 3px; }
+.auth-divider { height: 1px; background: var(--surface-border); margin: 1.5rem 0; }
+.auth-header { margin-bottom: 1.5rem; }
+.auth-header h1 {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+}
+.auth-header p { font-size: var(--text-sm); color: var(--text-secondary); }
+.auth-form { display: flex; flex-direction: column; gap: 1.1rem; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field label { font-size: var(--text-sm); font-weight: 600; color: var(--text-secondary); }
+.submit-btn { margin-top: 0.25rem; }
+.auth-switch {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+.info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 0.875rem;
+  line-height: 1.55;
+  margin-bottom: 1.1rem;
+}
+.info-box .pi { color: var(--bip-blue); margin-top: 1px; flex-shrink: 0; }
+</style>

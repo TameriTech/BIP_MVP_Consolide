@@ -1,7 +1,11 @@
+import hashlib
+import secrets
 import uuid
+from datetime import datetime, timedelta, timezone
 
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.core.errors import ConflictError, UnauthorizedError
 from app.core.security import (
     create_access_token,
@@ -12,6 +16,7 @@ from app.core.security import (
 )
 from app.models.account import Account
 from app.models.enums import AccountStatus, RoleEnum
+from app.models.password_reset import PasswordResetToken
 from app.models.user import User
 from app.schemas.auth import RegisterRequest, TokenPair
 
@@ -71,4 +76,48 @@ def change_password(db: Session, user: User, current_password: str, new_password
     if not verify_password(current_password, user.password_hash):
         raise UnauthorizedError("current password is incorrect")
     user.password_hash = hash_password(new_password)
+    db.commit()
+
+
+def _hash_reset_token(raw_token: str) -> str:
+    return hashlib.sha256(raw_token.encode()).hexdigest()
+
+
+def request_password_reset(db: Session, email: str) -> str | None:
+    """Issues a reset token for `email` if it matches an account, else no-ops.
+
+    Returns the RAW token (or None). Never raises for an unknown email —
+    the caller always returns the same generic message regardless, so this
+    endpoint can't be used to enumerate registered emails via error/success
+    branching. Only a hash of the token is ever persisted.
+    """
+    user = db.query(User).filter(User.email == email).first()
+    if user is None:
+        return None
+
+    raw_token = secrets.token_urlsafe(32)
+    db.add(
+        PasswordResetToken(
+            user_id=user.id,
+            token_hash=_hash_reset_token(raw_token),
+            expires_at=datetime.now(timezone.utc) + timedelta(minutes=settings.password_reset_expire_minutes),
+        )
+    )
+    db.commit()
+    return raw_token
+
+
+def reset_password(db: Session, token: str, new_password: str) -> None:
+    reset = (
+        db.query(PasswordResetToken)
+        .filter(PasswordResetToken.token_hash == _hash_reset_token(token))
+        .first()
+    )
+    now = datetime.now(timezone.utc)
+    if reset is None or reset.used_at is not None or reset.expires_at < now:
+        raise UnauthorizedError("invalid or expired reset token")
+
+    user = db.get(User, reset.user_id)
+    user.password_hash = hash_password(new_password)
+    reset.used_at = now
     db.commit()

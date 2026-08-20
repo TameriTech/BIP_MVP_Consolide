@@ -100,6 +100,7 @@ export interface PositionView {
 }
 
 export interface Portfolio {
+  currency: string;
   cash_balance: string;
   cash_reserved: string;
   cash_available: string;

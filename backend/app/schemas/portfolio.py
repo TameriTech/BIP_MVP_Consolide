@@ -15,6 +15,7 @@ class PositionView(BaseModel):
 
 
 class PortfolioOut(BaseModel):
+    currency: str
     cash_balance: Decimal
     cash_reserved: Decimal
     cash_available: Decimal

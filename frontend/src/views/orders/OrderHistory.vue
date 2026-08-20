@@ -62,7 +62,7 @@ function fmtDate(d: string) {
             <th>Side</th>
             <th>Type</th>
             <th class="right-align">Quantity</th>
-            <th class="right-align">Estimated (XOF)</th>
+            <th class="right-align">Estimated (USD)</th>
             <th>Status</th>
           </tr>
         </thead>

@@ -89,7 +89,8 @@ const chartOptions = {
     legend: { display: false },
     tooltip: {
       callbacks: {
-        label: (ctx: any) => ` ${Number(ctx.raw).toLocaleString("en-US", { minimumFractionDigits: 2 })} XOF`,
+        label: (ctx: any) =>
+          ` ${Number(ctx.raw).toLocaleString("en-US", { minimumFractionDigits: 2 })} ${instrument.value?.currency ?? "USD"}`,
       },
       backgroundColor: "#161d2e",
       borderColor: "rgba(255,255,255,0.1)",
@@ -225,7 +226,7 @@ const stats24h = computed(() => {
           <span class="change-diff">{{ priceChange.up ? '+' : '' }}{{ priceChange.diff.toLocaleString("en-US", { minimumFractionDigits: 2 }) }}</span>
           <span class="change-pct">({{ priceChange.pct.toFixed(2) }}%)</span>
         </div>
-        <div class="currency-label">XOF</div>
+        <div class="currency-label">{{ instrument.currency }}</div>
       </div>
     </div>
 
@@ -296,7 +297,7 @@ const stats24h = computed(() => {
 
         <!-- Limit price -->
         <div v-if="orderType === 'limit'" class="ticket-section">
-          <div class="section-label">Limit price (XOF)</div>
+          <div class="section-label">Limit price ({{ instrument.currency }})</div>
           <InputNumber
             v-model="limitPrice"
             :min="0"
@@ -310,16 +311,16 @@ const stats24h = computed(() => {
         <div class="estimate-box" :class="side === 'buy' ? 'est-buy' : 'est-sell'">
           <div class="est-row">
             <span>Gross amount</span>
-            <span class="num">{{ estimatedGross.toLocaleString("en-US", { minimumFractionDigits: 2 }) }} XOF</span>
+            <span class="num">{{ estimatedGross.toLocaleString("en-US", { minimumFractionDigits: 2 }) }} {{ instrument.currency }}</span>
           </div>
           <div class="est-row est-fee">
             <span>Commission (0.1%)</span>
-            <span class="num">{{ estimatedFee.toLocaleString("en-US", { minimumFractionDigits: 2 }) }} XOF</span>
+            <span class="num">{{ estimatedFee.toLocaleString("en-US", { minimumFractionDigits: 2 }) }} {{ instrument.currency }}</span>
           </div>
           <div class="est-divider"></div>
           <div class="est-row est-total">
             <span>{{ side === "buy" ? "Total cost" : "Net proceeds" }}</span>
-            <span class="num">{{ estimatedTotal.toLocaleString("en-US", { minimumFractionDigits: 2 }) }} XOF</span>
+            <span class="num">{{ estimatedTotal.toLocaleString("en-US", { minimumFractionDigits: 2 }) }} {{ instrument.currency }}</span>
           </div>
         </div>
 
@@ -346,11 +347,11 @@ const stats24h = computed(() => {
           {{ side === "buy" ? "Buy" : "Sell" }} {{ quantity }} {{ instrument.symbol }}
         </div>
         <div class="confirm-sub">
-          at {{ orderType === "limit" ? `limit ${fmtPrice(String(limitPrice))} XOF` : "market price" }}
+          at {{ orderType === "limit" ? `limit ${fmtPrice(String(limitPrice))} ${instrument.currency}` : "market price" }}
         </div>
         <div class="confirm-total">
           <span>{{ side === "buy" ? "Total cost" : "Net proceeds" }}</span>
-          <span class="num">{{ estimatedTotal.toLocaleString("en-US", { minimumFractionDigits: 2 }) }} XOF</span>
+          <span class="num">{{ estimatedTotal.toLocaleString("en-US", { minimumFractionDigits: 2 }) }} {{ instrument.currency }}</span>
         </div>
         <Message v-if="submitError" severity="error" :closable="false">{{ submitError }}</Message>
       </div>

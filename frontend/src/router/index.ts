@@ -19,6 +19,18 @@ const router = createRouter({
       meta: { public: true },
     },
     {
+      path: "/forgot-password",
+      name: "forgot-password",
+      component: () => import("@/views/auth/ForgotPassword.vue"),
+      meta: { public: true },
+    },
+    {
+      path: "/reset-password",
+      name: "reset-password",
+      component: () => import("@/views/auth/ResetPassword.vue"),
+      meta: { public: true },
+    },
+    {
       path: "/onboarding/kyc",
       name: "onboarding-kyc",
       component: () => import("@/views/onboarding/Kyc.vue"),

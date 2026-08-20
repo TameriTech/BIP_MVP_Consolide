@@ -3,9 +3,12 @@ from fastapi import APIRouter, status
 from app.core.deps import CurrentUser, DbSession
 from app.schemas.auth import (
     ChangePasswordRequest,
+    ForgotPasswordRequest,
+    ForgotPasswordResponse,
     LoginRequest,
     RefreshRequest,
     RegisterRequest,
+    ResetPasswordRequest,
     TokenPair,
     UserOut,
 )
@@ -41,6 +44,21 @@ def logout():
 @router.post("/change-password", status_code=status.HTTP_204_NO_CONTENT)
 def change_password(data: ChangePasswordRequest, db: DbSession, user: CurrentUser):
     auth_service.change_password(db, user, data.current_password, data.new_password)
+    return None
+
+
+@router.post("/forgot-password", response_model=ForgotPasswordResponse)
+def forgot_password(data: ForgotPasswordRequest, db: DbSession):
+    token = auth_service.request_password_reset(db, data.email)
+    return ForgotPasswordResponse(
+        message="If an account exists for this email, a password reset link has been issued.",
+        reset_token=token,
+    )
+
+
+@router.post("/reset-password", status_code=status.HTTP_204_NO_CONTENT)
+def reset_password(data: ResetPasswordRequest, db: DbSession):
+    auth_service.reset_password(db, data.token, data.new_password)
     return None
 
 

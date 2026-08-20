@@ -33,11 +33,11 @@ onMounted(async () => {
       </Column>
       <Column field="amount" header="Amount">
         <template #body="{ data }">
-          <span :class="Number(data.amount) < 0 ? 'neg' : 'pos'">${{ data.amount }}</span>
+          <span :class="Number(data.amount) < 0 ? 'neg' : 'pos'">{{ data.amount }} {{ data.currency }}</span>
         </template>
       </Column>
       <Column field="balance_after" header="Balance after">
-        <template #body="{ data }">${{ data.balance_after }}</template>
+        <template #body="{ data }">{{ data.balance_after }} {{ data.currency }}</template>
       </Column>
       <Column field="reference" header="Reference" />
     </DataTable>

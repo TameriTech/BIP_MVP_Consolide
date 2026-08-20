@@ -94,7 +94,7 @@ function timeAgo(dateStr: string) {
         <div class="stat-icon stat-icon-cash"><i class="pi pi-wallet"></i></div>
         <div class="stat-body">
           <div class="stat-label">Cash Available</div>
-          <div class="stat-value num">{{ fmt(portfolio.portfolio.cash_available) }} <span class="currency">XOF</span></div>
+          <div class="stat-value num">{{ fmt(portfolio.portfolio.cash_available) }} <span class="currency">{{ portfolio.portfolio.currency }}</span></div>
         </div>
       </div>
 
@@ -102,7 +102,7 @@ function timeAgo(dateStr: string) {
         <div class="stat-icon stat-icon-portfolio"><i class="pi pi-briefcase"></i></div>
         <div class="stat-body">
           <div class="stat-label">Total Portfolio Value</div>
-          <div class="stat-value num">{{ fmt(portfolio.portfolio.total_value) }} <span class="currency">XOF</span></div>
+          <div class="stat-value num">{{ fmt(portfolio.portfolio.total_value) }} <span class="currency">{{ portfolio.portfolio.currency }}</span></div>
         </div>
       </div>
 
@@ -156,7 +156,7 @@ function timeAgo(dateStr: string) {
               <div class="order-time">{{ timeAgo(order.created_at) }}</div>
             </div>
             <div class="order-amount num">
-              {{ order.estimated_amount ? `${fmt(order.estimated_amount)} XOF` : "—" }}
+              {{ order.estimated_amount ? `${fmt(order.estimated_amount)} ${portfolio.portfolio.currency}` : "—" }}
             </div>
             <div class="order-status-dot" :class="`dot-${statusSeverity[order.status] ?? 'secondary'}`"></div>
           </div>

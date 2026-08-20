@@ -41,6 +41,7 @@ def get_portfolio(db: Session, account: Account) -> dict:
         )
 
     return {
+        "currency": account.currency,
         "cash_balance": account.cash_balance,
         "cash_reserved": account.cash_reserved,
         "cash_available": account.cash_balance - account.cash_reserved,

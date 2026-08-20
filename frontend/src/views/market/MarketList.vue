@@ -17,6 +17,8 @@ const sectors = computed(() => {
   return ["All", ...Array.from(new Set(all)).sort()];
 });
 
+const currency = computed(() => market.instruments[0]?.currency ?? "USD");
+
 const filtered = computed(() => {
   const q = search.value.trim().toLowerCase();
   return market.instruments.filter((i) => {
@@ -93,7 +95,7 @@ function fmtPrice(val: string | null) {
             <th>Symbol</th>
             <th>Company</th>
             <th>Sector</th>
-            <th>Last Price (XOF)</th>
+            <th>Last Price ({{ currency }})</th>
             <th>Status</th>
           </tr>
         </thead>

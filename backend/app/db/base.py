@@ -18,5 +18,6 @@ from app.models import (  # noqa: E402,F401
     execution,
     ledger,
     audit,
+    password_reset,
     settings as settings_model,
 )

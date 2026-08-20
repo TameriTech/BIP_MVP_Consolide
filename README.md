@@ -133,4 +133,17 @@ frontend/src/
   demo market. Purely a display/config choice to change later.
 - RBAC is 4 fixed roles enforced by route/endpoint guards — no fine-grained
   permission matrix.
-- Password reset is not implemented (out of scope for a simulated demo).
+- Password reset works end-to-end (`/auth/forgot-password` →
+  `/auth/reset-password`, single-use tokens, 30-minute expiry) but there is no
+  outbound email integration — the reset token is returned directly in the
+  API/UI instead of emailed, the same "simulated, not real infra" approach
+  used for KYC.
+
+## Documentation
+
+Beyond this README, [`docs/`](docs/) has the deliverables listed in the
+cahier des charges (§33): [data model](docs/DATA_MODEL.md),
+[user guide](docs/USER_GUIDE.md), [admin/back-office guide](docs/ADMIN_GUIDE.md),
+and [test plan & report](docs/TEST_PLAN_AND_REPORT.md). Full API reference is
+the live OpenAPI docs at `/docs` (see Quickstart) rather than a static copy,
+so it never drifts from the actual code.
