@@ -310,3 +310,189 @@ here only affect *future* orders — trades that already executed keep the
 fee rate they were charged at.
 
 ![Platform settings — super-admin only](docs/screenshots/22-backoffice-settings.png)
+
+## Complete usage tutorial
+
+A hands-on, step-by-step guide to using the whole platform, start to finish.
+Follow **Part A** as an investor, then **Part B** as a back-office/admin
+user. Screenshots for every screen mentioned here are in the
+[walkthrough above](#platform-walkthrough-screenshots).
+
+Before you start, make sure the platform is running — see
+[Quickstart](#quickstart) — and open `http://localhost:5173`.
+
+### Part A — Using the platform as an investor
+
+#### A1. Create an account
+
+1. On the login page, click **Create one**.
+2. Enter your full name, email address, and a password (minimum 8
+   characters).
+3. Click **Create account**. You're signed in immediately — no email
+   confirmation step, since this is a simulation.
+
+> Prefer not to register? Skip straight to A4 and sign in with the
+> pre-funded demo account `investor@bip.demo` / `DemoPass123!` instead — it
+> already has a validated KYC and a starting portfolio.
+
+#### A2. Complete identity verification (KYC)
+
+New accounts land here automatically and can't trade until this is done.
+
+1. Fill in **Full legal name**, **Date of birth**, and **Country of
+   residence**.
+2. Fill in **Document type** (e.g. Passport) and **Document number** — any
+   value works, this is a simulated check, not a real one.
+3. Click **Submit for review**. The status tracker moves to **"Under
+   review"** and shows *"Awaiting review. Your KYC file has been submitted
+   to the back-office."*
+4. Your account stays in this state until a back-office operator validates
+   it (see Part B2). Once validated, it **activates automatically and is
+   credited** with the platform's starting simulated cash — you'll never
+   end up active-but-unfunded.
+
+#### A3. Sign back in later
+
+Use **Sign in** with your email/password. If you forget your password,
+click **Forgot password?**, enter your email, and follow the reset flow —
+since there's no outbound email in this MVP, the reset token is shown
+directly on screen instead of emailed.
+
+#### A4. Read your dashboard
+
+After signing in, the **Dashboard** shows, at a glance:
+
+- Cash available and total portfolio value
+- Number of open positions and unrealized P&L
+- Your five most recent orders
+- Quick-action buttons to jump to Market, Portfolio, Orders, or Ledger
+
+#### A5. Browse the market
+
+1. Click **Market** in the left sidebar.
+2. Browse the table of 18 tradable instruments (symbol, company, sector,
+   last price, status), or filter by sector using the tabs at the top.
+3. Click any row (e.g. **AAPL**) to open that instrument's detail page,
+   with its price history chart.
+
+#### A6. Place an order
+
+From an instrument's detail page:
+
+1. Choose **Buy** or **Sell**.
+2. Choose **Market** (executes immediately at the last known price) or
+   **Limit** (executes only once the price reaches your specified limit).
+3. Enter a **quantity**. The estimate box below updates live — gross
+   amount, commission, total cost.
+4. Click **Buy `<SYMBOL>`** / **Sell `<SYMBOL>`**.
+5. A confirmation dialog shows the final total — click **Confirm** to
+   place it.
+6. This MVP executes synchronously, so you're taken straight to the
+   **order detail** page showing the result: the order, its execution
+   (price/quantity/fee), and the ledger entries it produced.
+
+   If anything fails pre-trade (account not active, KYC not validated,
+   instrument not tradable, insufficient cash/shares), you'll see the
+   specific reason instead — nothing executes silently.
+
+#### A7. Track your orders
+
+1. Click **Orders** in the sidebar to see **Order History** — every order
+   you've placed, with its current status (submitted, executed, rejected,
+   cancelled, or reserved).
+2. Click any row to reopen its **order detail** page.
+3. A **reserved** limit order (not yet filled) can be **cancelled** from
+   its detail page — this immediately releases its hold on your cash or
+   shares.
+
+#### A8. Check your portfolio and ledger
+
+- Click **Portfolio** to see your open positions (quantity, average cost,
+  last price, market value), cash available vs. reserved, and unrealized
+  P&L — always computed live, never a stale cached number.
+- Click **Ledger** to see the full, immutable, chronological record of
+  every cash movement on your account (initial credit, trades, fees), each
+  with a running balance. Use the filter to narrow by entry type.
+
+#### A9. Manage your account
+
+Click your name at the bottom of the sidebar, or go to **Account
+Settings**, to change your password (you'll need your current one). Click
+**Log out** in the same place when you're done.
+
+---
+
+### Part B — Using the platform as back-office / admin
+
+Log out of the investor account, then sign in as `backoffice@bip.demo`,
+`admin@bip.demo`, or `superadmin@bip.demo` (password `DemoPass123!` for
+all demo accounts). Every screen below is enforced server-side as
+staff-only — not just hidden in the UI.
+
+#### B1. Read the back-office dashboard
+
+The landing page after staff login shows pending KYC reviews, total users,
+and order counts (total/executed/rejected), with quick-access links into
+every screen below.
+
+#### B2. Review a KYC submission
+
+1. Click **KYC Queue** in the sidebar.
+2. Each row shows a submitted file's name, country, document type, and
+   submission date.
+3. Click **Validate** to approve it — this **atomically** activates the
+   account and credits its starting cash balance in the same transaction.
+   Click **Reject** instead to deny it with a reason, which the investor
+   will see and can act on (edit and resubmit).
+
+#### B3. Manage users and accounts
+
+1. Click **Users** in the sidebar to see two tables:
+   - **Users** — every account and its role. Changing a role (the
+     dropdown next to each user) is **super-admin only**.
+   - **Accounts** — every trading account's cash balance, reserved funds,
+     and status, with a **Suspend** / **Reactivate** action. A suspended
+     account is immediately blocked from placing new orders.
+
+#### B4. Manage instruments
+
+1. Click **Instruments** in the sidebar.
+2. **Add** a new instrument, or edit an existing one's name/sector.
+3. Toggle **Tradable** off to halt trading on an instrument — pre-trade
+   checks will then reject any order against it with an explicit reason.
+4. Use **Refresh prices** to pull the latest quote from the market data
+   feed on demand, instead of waiting for the periodic background job.
+
+#### B5. Oversee orders and ledger platform-wide
+
+- Click **Orders** (under back-office) to see every order across **every**
+  account — not just one user's — filterable by status, account, and date.
+- Click **Ledger** (under back-office) for the same platform-wide view of
+  every cash movement, across every account.
+
+Both are useful for tracing a single transaction end-to-end during a
+review or demo.
+
+#### B6. Review the audit log
+
+Click **Audit Log** to see every sensitive action recorded on the
+platform — order execution/rejection, KYC review, account status changes,
+role changes, settings edits — each with the actor, their role, the
+action, the affected entity, and a timestamp. Filter by actor, entity
+type, or action to narrow it down.
+
+#### B7. Change platform settings (super-admin only)
+
+1. Sign in as `superadmin@bip.demo` (only super-admins can access this
+   screen).
+2. Click **Settings** in the sidebar.
+3. Existing key/value settings (e.g. the trading fee rate in basis points)
+   are listed at the top; use the form below to add or update one.
+4. Changes apply only to **future** orders — trades that already executed
+   keep the fee rate they were originally charged.
+
+---
+
+That covers every screen in the platform. For a narrower, role-specific
+reference, see the [User Guide](docs/USER_GUIDE.md) (investor) and
+[Admin Guide](docs/ADMIN_GUIDE.md) (back-office/admin).
