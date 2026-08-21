@@ -151,11 +151,16 @@ the live OpenAPI docs at `/docs` (see Quickstart) rather than a static copy,
 so it never drifts from the actual code. For an optional free-tier cloud
 deployment, see [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
+There's also a narrated video walkthrough:
+[`docs/bip-platform-walkthrough.mp4`](docs/bip-platform-walkthrough.mp4)
+(~7 minutes, covers every screen below with voice narration).
+
 ## Platform walkthrough (screenshots)
 
 A visual, step-by-step tour of the complete platform — every screen an
 investor or a back-office operator sees, in the order you'd actually
-encounter them during a demo.
+encounter them during a demo. (Prefer video? See the
+[narrated walkthrough](docs/bip-platform-walkthrough.mp4) linked above.)
 
 ### 1. Sign up and sign in
 
