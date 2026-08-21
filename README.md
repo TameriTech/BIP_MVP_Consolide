@@ -147,3 +147,163 @@ cahier des charges (§33): [data model](docs/DATA_MODEL.md),
 and [test plan & report](docs/TEST_PLAN_AND_REPORT.md). Full API reference is
 the live OpenAPI docs at `/docs` (see Quickstart) rather than a static copy,
 so it never drifts from the actual code.
+
+## Platform walkthrough (screenshots)
+
+A visual, step-by-step tour of the complete platform — every screen an
+investor or a back-office operator sees, in the order you'd actually
+encounter them during a demo.
+
+### 1. Sign up and sign in
+
+**Login.** Returning users sign in here. Demo credentials for all four roles
+are listed right on the page so a reviewer never has to dig through docs
+mid-demo.
+
+![Login](docs/screenshots/01-login.png)
+
+**Register.** New investors create an account with just a name, email, and
+password — they're signed in immediately and dropped straight into KYC, no
+email confirmation step (this is a simulation, not a real brokerage).
+
+![Register](docs/screenshots/02-register.png)
+
+**Forgot password.** Since there's no outbound email integration in this
+MVP, the reset flow is fully self-service: request a reset, get a token, set
+a new password — all inside the app instead of an inbox.
+
+![Forgot password](docs/screenshots/03-forgot-password.png)
+
+### 2. Onboarding: simulated KYC
+
+**KYC form.** Every fresh signup lands here before they can trade. It's
+explicitly labeled as a simulated identity check — legal name, date of
+birth, country, and an ID document type/number, nothing more.
+
+![KYC form](docs/screenshots/04-kyc-form.png)
+
+**Awaiting review.** After submitting, the account sits in "submitted"
+status. The three-step tracker (Personal info → Under review → Activated)
+tells the investor exactly where they stand while a back-office operator
+reviews the file.
+
+![KYC submitted, awaiting review](docs/screenshots/05-kyc-submitted.png)
+
+### 3. The investor experience
+
+**Dashboard.** The investor's home base: cash available, total portfolio
+value, open positions, unrealized P&L, and the most recent orders — the
+whole account at a glance the moment you log in.
+
+![Investor dashboard](docs/screenshots/06-dashboard.png)
+
+**Market.** Every tradable instrument in one sortable, filterable table —
+symbol, company, sector, last price, and tradability status. This is the
+platform's demo market (18 well-known tickers, real price data via
+yfinance).
+
+![Market list](docs/screenshots/07-market-list.png)
+
+**Instrument detail.** Click any symbol to see its price history chart and
+an order ticket right next to it — buy or sell, market or limit, with a
+live-computed estimate (gross amount, commission, total) before you commit
+to anything.
+
+![Market detail — AAPL](docs/screenshots/08-market-detail.png)
+
+**Confirm order.** Nothing executes silently — every order shows a final
+confirmation with the exact cost before it's sent. Behind the scenes, the
+platform is already running pre-trade checks (account active, KYC
+validated, enough available cash/shares).
+
+![Order confirmation dialog](docs/screenshots/09-order-confirm.png)
+
+**Order detail.** Because this MVP executes synchronously, confirming an
+order takes you straight to its full detail page: the order itself, its
+execution (price, quantity, fee), and every ledger entry it produced — the
+complete order → execution → ledger chain in one view.
+
+![Order detail — full execution chain](docs/screenshots/10-order-detail.png)
+
+**Order history.** Every order ever placed on the account, with status
+(executed, rejected, reserved, cancelled) at a glance. Open any row to jump
+back into its detail page.
+
+![Order history](docs/screenshots/11-order-history.png)
+
+**Portfolio.** Open positions — quantity, average cost, last price, market
+value — plus cash available vs. reserved and unrealized P&L. Always
+computed live from positions and ledger, never a stale cached number.
+
+![Portfolio](docs/screenshots/12-portfolio.png)
+
+**Ledger.** The immutable, chronological record of every cash movement on
+the account — initial credit, trades, fees — each with a running balance.
+
+![Ledger](docs/screenshots/13-ledger.png)
+
+**Account settings.** Change your password here (current password
+required). It's the same self-service pattern as the forgot-password flow —
+no email round-trip needed.
+
+![Account settings](docs/screenshots/14-account-settings.png)
+
+### 4. Back-office & administration
+
+Everything below is visible only to staff roles (`backoffice_operator`,
+`admin`, `super_admin`) — enforced server-side, not just hidden in the UI.
+
+**Back-office dashboard.** A platform-wide operational snapshot: pending KYC
+reviews, total users, total/executed/rejected orders — the first thing a
+staff member sees, with quick links into every other back-office screen.
+
+![Back-office dashboard](docs/screenshots/15-backoffice-dashboard.png)
+
+**KYC queue.** Every submitted KYC file awaiting review, with **Validate**
+and **Reject** actions right in the row. Validating an account is atomic —
+it activates the account and credits its starting simulated cash balance in
+the same transaction, so there's never a window where it's active but
+unfunded.
+
+![KYC queue — pending review](docs/screenshots/16-backoffice-kyc-queue.png)
+
+**Users & accounts.** Every user and their role (role changes are
+super-admin only), plus every trading account with its cash balance,
+reserved funds, and status — suspend an account here to immediately block it
+from placing new orders.
+
+![Users & accounts](docs/screenshots/17-backoffice-users.png)
+
+**Instruments.** Manage the tradable-instrument list: add a new instrument,
+edit its details, toggle tradability, or force an on-demand price refresh
+from the market data feed instead of waiting for the periodic background
+job.
+
+![Instruments management](docs/screenshots/18-backoffice-instruments.png)
+
+**Orders (oversight).** Read-only visibility into every order across
+**every** account on the platform — not just your own — filterable by
+status, account, and date. Useful for tracing any transaction end-to-end
+during a review.
+
+![Orders — platform-wide oversight](docs/screenshots/19-backoffice-orders.png)
+
+**Ledger (oversight).** The same immutable ledger investors see, but for
+every account at once — the platform's full financial trail in one table.
+
+![Ledger — platform-wide oversight](docs/screenshots/20-backoffice-ledger.png)
+
+**Audit log.** Every sensitive action recorded platform-wide — order
+execution, KYC review, account status changes, role changes, settings
+edits — each with the actor, their role, the action, the affected entity,
+and a timestamp. This is the traceability trail referenced in the cahier
+des charges (§23/§24).
+
+![Audit log](docs/screenshots/21-backoffice-audit-log.png)
+
+**Platform settings.** Super-admin only. Platform-wide simulation
+parameters (like the trading fee rate) stored as key/value pairs. Changes
+here only affect *future* orders — trades that already executed keep the
+fee rate they were charged at.
+
+![Platform settings — super-admin only](docs/screenshots/22-backoffice-settings.png)
