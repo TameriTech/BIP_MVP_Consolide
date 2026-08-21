@@ -14,7 +14,9 @@ spec this MVP implements.
 - **Market data**: `yfinance` for ~18 well-known tickers, ingested into the
   platform's own `Quote` table. Falls back to seeded plausible prices if
   yfinance is unreachable — the app never depends on live internet access.
-- **Deployment**: local-only via `docker-compose`. No cloud hosting.
+- **Deployment**: local-only via `docker-compose` is the primary, always-
+  supported path. An optional free-tier cloud deployment guide also exists —
+  see [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
 ## Quickstart
 
@@ -146,7 +148,8 @@ cahier des charges (§33): [data model](docs/DATA_MODEL.md),
 [user guide](docs/USER_GUIDE.md), [admin/back-office guide](docs/ADMIN_GUIDE.md),
 and [test plan & report](docs/TEST_PLAN_AND_REPORT.md). Full API reference is
 the live OpenAPI docs at `/docs` (see Quickstart) rather than a static copy,
-so it never drifts from the actual code.
+so it never drifts from the actual code. For an optional free-tier cloud
+deployment, see [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
 ## Platform walkthrough (screenshots)
 
