@@ -501,3 +501,21 @@ type, or action to narrow it down.
 That covers every screen in the platform. For a narrower, role-specific
 reference, see the [User Guide](docs/USER_GUIDE.md) (investor) and
 [Admin Guide](docs/ADMIN_GUIDE.md) (back-office/admin).
+
+---
+
+## Narrated video walkthrough
+
+A full narrated walkthrough of the platform — every screen covered with
+voice narration, in the order you'd encounter them during a live demo:
+
+**[▶ bip\_platform\_walkthrough\_narrated.mp4](docs/bip_platform_walkthrough_narrated.mp4)**
+
+> ~9 minutes 30 seconds — covers the complete investor journey (sign-up,
+> KYC, market browsing, order placement, portfolio & ledger) and the full
+> back-office tour (KYC queue, user management, instruments, orders,
+> ledger oversight, audit log, and platform settings).
+
+The earlier silent recording with separate audio segments has been merged
+into this single, self-contained MP4 (H.264 video + AAC audio, 17 MB).
+
